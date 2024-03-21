@@ -1,4 +1,4 @@
-import { Button, Frog} from "frog";
+import { Button, Frog, TextInput } from "frog";
 import { devtools } from "frog/dev";
 import { serveStatic } from "frog/serve-static";
 import { handle } from "frog/vercel";
@@ -8,7 +8,7 @@ import { handle } from "frog/vercel";
 //   runtime: 'edge',
 // }
 // Function to fetch data from ESPN API
-async function fetchESPNData(i) {
+async function fetchESPNData() {
   try {
     const response = await fetch(
       "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
@@ -19,7 +19,7 @@ async function fetchESPNData(i) {
     const events = data.events;
     const length = events.length;
     // const randomIndex = Math.floor(Math.random() * length);
-    const nextGame = events[i]; // Assuming the first event is the next game
+    const nextGame = events[0]; // Assuming the first event is the next game
 
     // Extract relevant information
     const homeTeamData = nextGame.competitions[0].competitors[0].team;
@@ -103,7 +103,7 @@ export const app = new Frog({
 app.frame("/", (c) => {
   // const { buttonValue, status } = c;
   return c.res({
-    action: "/0",
+    action: "/1",
     image: (
       <div
         style={{
@@ -136,102 +136,145 @@ app.frame("/", (c) => {
         </div>
       </div>
     ),
-    intents: [<Button value="next">View Games</Button>],
+    intents: [<Button value="next">Next</Button>],
   });
 });
-const games = await fetchESPNData(0);
-for (let i = 0; i < games?.length; i++) {
-  app.frame(`/${i}`, async (c) => {
-    // const { buttonValue } = c;
-    const espnData = await fetchESPNData(i);
-    console.log(espnData);
-    // Define the action for the "back" button
-    let backAction = i > 0 ? `/${i - 1}` : `/${i}`;
-    // Define the action for the "next" button
-    let nextAction = i < espnData?.length - 1 ? `/${i + 1}` : null;
-    return c.res({
-      // action: action,
-      image: (
+
+app.frame("/1", async (c) => {
+  // const { buttonValue, status } = c;
+  const espnData = await fetchESPNData();
+  console.log(espnData);
+  return c.res({
+    action: "/2",
+    image: (
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundImage: `linear-gradient(to right, #${espnData?.homeTeamColor}, #${espnData?.awayTeamColor})`,
+          fontSize: 54,
+          fontWeight: 600,
+          color: "white",
+        }}
+      >
+        <div style={{ marginBottom: 85 }}>{espnData?.clock}</div>
         <div
           style={{
-            height: "100%",
+            height: "40%",
             width: "100%",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            backgroundImage: `linear-gradient(to right, #${espnData?.homeTeamColor}, #${espnData?.awayTeamColor})`,
-            fontSize: 54,
-            fontWeight: 600,
-            color: "white",
+            marginBottom: 10,
           }}
         >
-          <div style={{ marginBottom: 85 }}>{espnData?.clock}</div>
+          <img
+            alt="Home Team"
+            height={500}
+            src={espnData?.homeTeamLogoUrl}
+            style={{ margin: "0 50px" }}
+            width={500}
+          />
+          <img
+            alt="Away Team"
+            height={500}
+            src={espnData?.awayTeamLogoUrl}
+            style={{ margin: "0 50px" }}
+            width={500}
+          />
+        </div>
+
+        {/* Conditionally render based on gameState */}
+        {espnData?.gameState === "pre" ? (
+          <>
+            <div>{espnData?.oddsDetails}</div>
+          </>
+        ) : (
           <div
             style={{
-              height: "40%",
-              width: "100%",
+              marginTop: 65,
               display: "flex",
               flexDirection: "row",
+              width: "35%",
               alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 10,
+              justifyContent: "space-between",
+              fontSize: 60,
             }}
           >
-            <img
-              alt="Home Team"
-              height={500}
-              src={espnData?.homeTeamLogoUrl}
-              style={{ margin: "0 50px" }}
-              width={500}
-            />
-            <img
-              alt="Away Team"
-              height={500}
-              src={espnData?.awayTeamLogoUrl}
-              style={{ margin: "0 50px" }}
-              width={500}
-            />
+            <div>{espnData?.homeTeamScore}</div>
+            <div>{espnData?.awayTeamScore}</div>
           </div>
-
-          {/* Conditionally render based on gameState */}
-          {espnData?.gameState === "pre" ? (
-            <>
-              <div>{espnData?.oddsDetails}</div>
-            </>
-          ) : (
-            <div
-              style={{
-                marginTop: 65,
-                display: "flex",
-                flexDirection: "row",
-                width: "35%",
-                alignItems: "center",
-                justifyContent: "space-between",
-                fontSize: 60,
-              }}
-            >
-              <div>{espnData?.homeTeamScore}</div>
-              <div>{espnData?.awayTeamScore}</div>
-            </div>
-          )}
-        </div>
-      ),
-      intents: [
-        <Button value="back" action={backAction}>
-          Back
-        </Button>,
-        nextAction ? (
-          <Button value="next" action={nextAction}>
-            Next
-          </Button>
-        ) : (
-          <Button.Reset>Reset</Button.Reset>
-        ),
-      ].filter(Boolean),
-    });
+        )}
+      </div>
+    ),
+    intents: [
+      <Button value="refresh">Refresh</Button>,
+      <Button value="next">Next</Button>,
+    ],
   });
-}
+});
+app.frame("/2", (c) => {
+  // const { buttonValue, status } = c;
+  return c.res({
+    action: "/",
+    image: (
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundImage: "linear-gradient(to right, #00205c, #ee8601)",
+          fontSize: 54,
+          fontWeight: 600,
+          color: "white",
+        }}
+      >
+        <div style={{ marginBottom: 85 }}>Today 7:00 pm</div>
+
+        <div
+          style={{
+            height: "40%",
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 10,
+          }}
+        >
+          <img
+            alt="Team"
+            height={500}
+            src="https://a.espncdn.com/i/teamlogos/ncaa/500/147.png"
+            style={{ margin: "0 40px" }}
+            width={500}
+          />
+          <img
+            alt="Vercel"
+            height={500}
+            src="https://a.espncdn.com/i/teamlogos/ncaa/500/2755.png"
+            style={{ margin: "0 50px" }}
+            width={500}
+          />
+        </div>
+        <div style={{ marginTop: 80 }}>MTST -4.5</div>
+      </div>
+    ),
+    intents: [
+      <Button value="next">Back</Button>,
+      <Button value="#">Refresh</Button>,
+      <Button value="mango">Mango</Button>,
+    ],
+  });
+});
 if (import.meta.env?.MODE === "development") devtools(app, { serveStatic });
 else devtools(app, { assetsPath: "/.frog" });
 
