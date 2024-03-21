@@ -1,4 +1,4 @@
-import { Button, Frog} from "frog";
+import { Button, Frog } from "frog";
 import { devtools } from "frog/dev";
 import { serveStatic } from "frog/serve-static";
 import { handle } from "frog/vercel";
@@ -146,7 +146,7 @@ for (let i = 0; i < games?.length; i++) {
     const espnData = await fetchESPNData(i);
     console.log(espnData);
     // Define the action for the "back" button
-    let backAction = i > 0 ? `/${i - 1}` : `/${i}`;
+    let backAction = i > 0 ? `/${i - 1}` : `/`;
     // Define the action for the "next" button
     let nextAction = i < espnData?.length - 1 ? `/${i + 1}` : null;
     return c.res({
