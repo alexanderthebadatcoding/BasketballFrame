@@ -50,6 +50,25 @@ async function fetchESPNData(i) {
     }
 
     const gameTime = new Date(nextGame.date);
+    const formattedDayAndTime = () => {
+      const today = new Date();
+      if (gameTime.toDateString() === today.toDateString()) {
+        return `Today ${gameTime.toLocaleString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })}`;
+      } else {
+        return `${gameTime.toLocaleString("en-US", {
+          weekday: "long",
+        })} ${gameTime.toLocaleString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })}`;
+      }
+    };
+    const gameDay = formattedDayAndTime();
     const homeTeamScore = nextGame.competitions[0].competitors[0].score;
     const awayTeamScore = nextGame.competitions[0].competitors[1].score;
     const gameState = nextGame.status.type.state;
@@ -58,7 +77,7 @@ async function fetchESPNData(i) {
 
     if (gameState === "pre") {
       // Extract odds details if available
-      clock = new Date(nextGame.date);
+      clock = gameDay;
       if (
         nextGame &&
         nextGame.competitions &&
@@ -81,6 +100,7 @@ async function fetchESPNData(i) {
       awayTeamColor,
       broadcastName,
       gameTime,
+      gameDay,
       homeTeamScore,
       awayTeamScore,
       gameState,
@@ -180,17 +200,17 @@ for (let i = 0; i < games?.length; i++) {
           >
             <img
               alt="Home Team"
-              height={500}
+              height={450}
               src={espnData?.homeTeamLogoUrl}
               style={{ margin: "0 50px" }}
-              width={500}
+              width={450}
             />
             <img
               alt="Away Team"
-              height={500}
+              height={450}
               src={espnData?.awayTeamLogoUrl}
               style={{ margin: "0 50px" }}
-              width={500}
+              width={450}
             />
           </div>
 
@@ -202,7 +222,7 @@ for (let i = 0; i < games?.length; i++) {
           ) : (
             <div
               style={{
-                marginTop: 65,
+                marginTop: 75,
                 display: "flex",
                 flexDirection: "row",
                 width: "35%",
