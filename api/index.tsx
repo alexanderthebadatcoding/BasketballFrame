@@ -57,14 +57,17 @@ async function fetchESPNData(i) {
           hour: "numeric",
           minute: "numeric",
           hour12: true,
-        })}`;
+          timeZone: "America/New_York",
+        })} ET`;
       } else {
         return `${gameTime.toLocaleString("en-US", {
           weekday: "long",
+          timeZone: "America/New_York",
         })} ${gameTime.toLocaleString("en-US", {
           hour: "numeric",
           minute: "numeric",
           hour12: true,
+          timeZone: "America/New_York",
         })}`;
       }
     };
@@ -217,7 +220,13 @@ for (let i = 0; i < games?.length; i++) {
           {/* Conditionally render based on gameState */}
           {espnData?.gameState === "pre" ? (
             <>
-              <div>{espnData?.oddsDetails}</div>
+              <div
+                style={{
+                  marginTop: 75,
+                }}
+              >
+                {espnData?.oddsDetails}
+              </div>
             </>
           ) : (
             <div
