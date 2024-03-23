@@ -7,9 +7,132 @@ import { handle } from "frog/vercel";
 // export const config = {
 //   runtime: 'edge',
 // }
+function getSlugByAcronym(ShortName: string) {
+  const data = {
+    result: {
+      data: {
+        json: [
+          { acronym: "COFC", slug: "maroon-and-white" },
+          { acronym: "GCU", slug: "havoc-horde" },
+          { acronym: "OAK", slug: "grizz-gang" },
+          { acronym: "COLG", slug: "raiders-rally" },
+          { acronym: "SPU", slug: "peacock-pride" },
+          { acronym: "UV", slug: "catamount-nation" },
+          { acronym: "HOU", slug: "coog-crew" },
+          { acronym: "WIS", slug: "badger-nation" },
+          { acronym: "BYU", slug: "cougar-faithful" },
+          { acronym: "COL", slug: "buff-nation" },
+          { acronym: "UF", slug: "gator-nation" },
+          { acronym: "NW", slug: "wildcat-alliance" },
+          { acronym: "SC", slug: "garnet-nation" },
+          { acronym: "UVA", slug: "hoo-crew" },
+          { acronym: "ZAG", slug: "the-zags" },
+          { acronym: "DUQ", slug: "duke-dynasty" },
+          { acronym: "JMU", slug: "bulldog-legion" },
+          { acronym: "DEL", slug: "hen-nation" },
+          { acronym: "SIN", slug: "scream-circle" },
+          { acronym: "RICE", slug: "owl-watch" },
+          { acronym: "KU", slug: "rock-chalk-nation" },
+          { acronym: "BAY", slug: "bear-nation" },
+          { acronym: "LON", slug: "lancer-strong" },
+          { acronym: "TENN", slug: "rocky-top" },
+          { acronym: "UT", slug: "hookem-nation" },
+          { acronym: "SDSU", slug: "aztec-empire" },
+          { acronym: "MSU", slug: "sparty-nation" },
+          { acronym: "MTS", slug: "bobcat-backers" },
+          { acronym: "STET", slug: "hatter-horde" },
+          { acronym: "LBU", slug: "the-beach" },
+          { acronym: "HOW", slug: "blue-stampede" },
+          { acronym: "WKU", slug: "the-red-towel" },
+          { acronym: "NAL", slug: "purple-and-gold" },
+          { acronym: "LOC", slug: "rambler-faithful" },
+          { acronym: "BUT", slug: "bulldog-battalion" },
+          { acronym: "CONN", slug: "husky-nation" },
+          { acronym: "CREI", slug: "jay-nation" },
+          { acronym: "BING", slug: "bearcat-circle" },
+          { acronym: "LOU", slug: "the-ville" },
+          { acronym: "UCR", slug: "high-ground" },
+          { acronym: "CAMP", slug: "cam-family" },
+          { acronym: "LIB", slug: "flames-up" },
+          { acronym: "SHOU", slug: "bearkcat-pack" },
+          { acronym: "DAY", slug: "flyer-faithful" },
+          { acronym: "ALA", slug: "crimson-nation" },
+          { acronym: "WAG", slug: "seahawk-circle" },
+          { acronym: "CSU", slug: "ram-nation" },
+          { acronym: "STAN", slug: "cardinal-reign" },
+          { acronym: "OMA", slug: "mav-circle" },
+          { acronym: "GST", slug: "panther-pride" },
+          { acronym: "KNST", slug: "owl-family" },
+          { acronym: "SJU", slug: "the-red-storm" },
+          { acronym: "QUE", slug: "royal-regent" },
+          { acronym: "RMU", slug: "the-colony" },
+          { acronym: "COLU", slug: "lion-society" },
+          { acronym: "RID", slug: "broncs-rise" },
+          { acronym: "SIEN", slug: "saints-row" },
+          { acronym: "CMU", slug: "the-chips" },
+          { acronym: "BU", slug: "brave-brigade" },
+          { acronym: "SEMO", slug: "the-red-rising" },
+          { acronym: "ORE", slug: "duck-nation" },
+          { acronym: "SU", slug: "orange-crush" },
+          { acronym: "EKU", slug: "colonel-crew" },
+          { acronym: "BCU", slug: "cook-crew" },
+          { acronym: "MST", slug: "hail-state" },
+          { acronym: "TCU", slug: "horned-legion" },
+          { acronym: "WSU", slug: "wazzu-pride" },
+          { acronym: "STB", slug: "the-sea-pack" },
+          { acronym: "TOW", slug: "tow-together" },
+          { acronym: "ORST", slug: "beaver-brigade" },
+          { acronym: "ILL", slug: "illini-nation" },
+          { acronym: "FUR", slug: "purple-loyal" },
+          { acronym: "WOF", slug: "terrier-tribe" },
+          { acronym: "NOLA", slug: "privateer-pride" },
+          { acronym: "TAMC", slug: "lion-circle" },
+          { acronym: "ION", slug: "the-gael-guard" },
+          { acronym: "MARI", slug: "the-fox-den" },
+          { acronym: "A&M", slug: "aggie-nation" },
+          { acronym: "FAU", slug: "owl-pack" },
+          { acronym: "DRAK", slug: "bulldog-brigade" },
+          { acronym: "TTU", slug: "sclaret-and-black" },
+          { acronym: "FAIR", slug: "stag-force" },
+          { acronym: "NAR", slug: "lumber-legion" },
+          { acronym: "BELL", slug: "knights-watch" },
+          { acronym: "STM", slug: "gael-force" },
+          { acronym: "MAN", slug: "jasper-loyal" },
+          { acronym: "ZONA", slug: "wildcat-nation" },
+          { acronym: "NEB", slug: "husker-horde" },
+          { acronym: "UNM", slug: "lobo-legion" },
+          { acronym: "BUFF", slug: "the-bullhorn" },
+          { acronym: "ULL", slug: "ragin-nation" },
+          { acronym: "DUKE", slug: "the-dukies" },
+          { acronym: "LONG", slug: "lancer-strong" },
+          { acronym: "USU", slug: "aggie-alliance" },
+          { acronym: "PUR", slug: "boiler-up" },
+          { acronym: "GRAM", slug: "black-and-gold" },
+          { acronym: "SMC", slug: "gael-force" },
+          { acronym: "MARQ", slug: "the-flock" },
+          { acronym: "AUB", slug: "war-eagle-nation" },
+          { acronym: "YALE", slug: "bulldog-society" },
+          { acronym: "UVM", slug: "catamount-nation" },
+          { acronym: "UAB", slug: "blazer-alliance" },
+          { acronym: "CLEM", slug: "tiger-family" },
+          { acronym: "COLO", slug: "buff-nation" },
+          { acronym: "FLA", slug: "gator-nation" },
+          { acronym: "NU", slug: "wildcat-alliance" },
+          { acronym: "TA&M", slug: "aggie-nation" },
+        ],
+      },
+    },
+  };
+
+  // Find matching acronym and return corresponding slug
+  const match = data.result.data.json.find(
+    (item) => item.acronym === ShortName
+  );
+  return match ? match.slug : null;
+}
 
 // Function to fetch data from ESPN API
-async function fetchESPNData(i) {
+async function fetchESPNData(i: number) {
   try {
     const response = await fetch(
       "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
@@ -29,13 +152,13 @@ async function fetchESPNData(i) {
     const awayTeamLogoUrl = awayTeamData.logo;
     const homeTeam = homeTeamData.shortDisplayName;
     const awayTeam = awayTeamData.shortDisplayName;
+    const homeTeamShort = homeTeamData.abbreviation;
+    const awayTeamShort = awayTeamData.abbreviation;
     // const homeTeamAlt = homeTeamData.alternateColor;
     const homeTeamColor = homeTeamData.color;
-    let awayTeamColor = awayTeamData.color;
+    const awayTeamColor = awayTeamData.color;
     const awayTeamAlt = awayTeamData.alternateColor;
-    if (awayTeamColor === "ffffff") {
-      awayTeamColor = awayTeamAlt;
-    }
+    const homeTeamAlt = homeTeamData.alternateColor;
 
     let broadcastName = "";
     if (
@@ -76,6 +199,8 @@ async function fetchESPNData(i) {
     const homeTeamScore = nextGame.competitions[0].competitors[0].score;
     const awayTeamScore = nextGame.competitions[0].competitors[1].score;
     const gameState = nextGame.status.type.state;
+    const homeSlug = getSlugByAcronym(homeTeamShort);
+    const awaySlug = getSlugByAcronym(awayTeamShort);
     let clock;
     let oddsDetails = "";
 
@@ -98,10 +223,14 @@ async function fetchESPNData(i) {
       length,
       homeTeam,
       awayTeam,
+      homeTeamShort,
+      awayTeamShort,
       homeTeamLogoUrl,
       awayTeamLogoUrl,
       homeTeamColor,
       awayTeamColor,
+      homeTeamAlt,
+      awayTeamAlt,
       broadcastName,
       gameTime,
       gameDay,
@@ -110,6 +239,8 @@ async function fetchESPNData(i) {
       gameState,
       oddsDetails,
       clock,
+      homeSlug,
+      awaySlug,
     };
   } catch (error) {
     console.error("Error fetching ESPN data:", error);
@@ -133,8 +264,7 @@ app.frame("/", (c) => {
       <div
         style={{
           alignItems: "center",
-          background: "#009CDE",
-          backgroundSize: "100% 100%",
+          background: "white",
           display: "flex",
           flexDirection: "column",
           flexWrap: "nowrap",
@@ -144,20 +274,28 @@ app.frame("/", (c) => {
           width: "100%",
         }}
       >
+        <img
+          alt="Home Team"
+          height={400}
+          src="https://bracket.game/favicons/apple-touch-icon.png"
+          style={{ margin: "0 2px" }}
+          width={400}
+        />
         <div
           style={{
-            color: "white",
+            color: "#2F5FF6",
             fontSize: 100,
             fontStyle: "normal",
             letterSpacing: "-0.025em",
             lineHeight: 1.4,
-            marginTop: 30,
+            marginTop: 0,
             padding: "0 120px",
             whiteSpace: "pre-wrap",
             fontWeight: "bold",
+            fontFamily: "Inter",
           }}
         >
-          NCAA March Madness in a Frame
+          Bracket.Game
         </div>
       </div>
     ),
@@ -174,6 +312,9 @@ for (let i = 0; i < games?.length; i++) {
     let backAction = i > 0 ? `/${i - 1}` : `/`;
     // Define the action for the "next" button
     let nextAction = i < espnData?.length - 1 ? `/${i + 1}` : null;
+    let homeSlug = espnData?.homeSlug;
+    let awaySlug = espnData?.awaySlug;
+    // Example usage:
     return c.res({
       // action: action,
       image: (
@@ -185,38 +326,67 @@ for (let i = 0; i < games?.length; i++) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundImage: `linear-gradient(to right, #${espnData?.homeTeamColor}, #${espnData?.awayTeamColor})`,
+            backgroundColor: "white",
             fontSize: 54,
             fontWeight: 600,
-            color: "white",
+            color: "black",
+            fontFamily: "Inter",
           }}
         >
           <div style={{ marginBottom: 85 }}>{espnData?.clock}</div>
           <div
             style={{
               height: "40%",
-              width: "100%",
+              width: "80%",
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-between",
               marginBottom: 10,
             }}
           >
-            <img
-              alt="Home Team"
-              height={450}
-              src={espnData?.homeTeamLogoUrl}
-              style={{ margin: "0 50px" }}
-              width={450}
-            />
-            <img
-              alt="Away Team"
-              height={450}
-              src={espnData?.awayTeamLogoUrl}
-              style={{ margin: "0 50px" }}
-              width={450}
-            />
+            <div
+              style={{
+                height: "400px",
+                width: "400px",
+                borderRadius: "50%",
+                backgroundColor: `#${espnData?.homeTeamColor}`,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* Your shape or content goes here */}
+              <span
+                style={{
+                  fontSize: "130px",
+                  color: "#" + espnData?.homeTeamAlt,
+                }}
+              >
+                {espnData?.homeTeamShort}
+              </span>
+            </div>
+            <div
+              style={{
+                height: "400px",
+                width: "400px",
+                borderRadius: "50%",
+                backgroundColor: `#${espnData?.awayTeamColor}`,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* Your shape or content goes here */}
+              <span
+                style={{
+                  fontSize: "130px",
+                  color: "#" + espnData?.awayTeamAlt,
+                }}
+              >
+                {espnData?.awayTeamShort}
+              </span>
+            </div>
           </div>
 
           {/* Conditionally render based on gameState */}
@@ -252,6 +422,14 @@ for (let i = 0; i < games?.length; i++) {
         <Button value="back" action={backAction}>
           Back
         </Button>,
+        <Button.Link href={`https://bracket.game/${homeSlug}`}>
+          {" "}
+          {espnData?.homeTeamShort}
+        </Button.Link>,
+        <Button.Link href={`https://bracket.game/${awaySlug}`}>
+          {" "}
+          {espnData?.awayTeamShort}
+        </Button.Link>,
         nextAction ? (
           <Button value="next" action={nextAction}>
             Next
