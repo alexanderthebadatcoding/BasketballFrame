@@ -8,3 +8,16 @@ export async function generateMetadata(): Promise<Metadata> {
     other: frameMetadata,
   };
 }
+
+// Define your React component
+const Page = () => {
+  return (
+    <div>
+      <h1>NCAA Basketball in a frame</h1>
+      {/* Other content goes here */}
+    </div>
+  );
+};
+
+// Export the component
+export default Page;

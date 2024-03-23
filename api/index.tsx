@@ -9,7 +9,7 @@ import { handle } from "frog/vercel";
 // }
 
 // Function to fetch data from ESPN API
-async function fetchESPNData(i) {
+async function fetchESPNData(i: number) {
   try {
     const response = await fetch(
       "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
@@ -120,7 +120,7 @@ async function fetchESPNData(i) {
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
-  browserLocation: "/:path",
+  browserLocation: "/",
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 });
