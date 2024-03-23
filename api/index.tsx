@@ -7,6 +7,7 @@ import { handle } from "frog/vercel";
 // export const config = {
 //   runtime: 'edge',
 // }
+
 // Function to fetch data from ESPN API
 async function fetchESPNData(i) {
   try {
@@ -119,6 +120,7 @@ async function fetchESPNData(i) {
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
+  browserLocation: "/:path",
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 });
